@@ -1,7 +1,8 @@
-
+import Link from "next/link";
 import Hero from "@/components/Hero";
+import ProyekCard from "@/components/ProyekCard";
 import SkillCard from "@/components/SkillCard";
-import Kartu from "@/components/Kartu";
+import { proyek } from "@/data/proyek";
 
 const skills = [
   { nama: "HTML", level: "Menengah" },
@@ -10,6 +11,8 @@ const skills = [
   { nama: "Git & GitHub", level: "Dasar" },
   { nama: "Desain poster dengan Canva", level: "Mahir" },
 ];
+
+const proyekTerbaru = proyek.slice(-3);
 
 export default function Home() {
   return (
@@ -33,26 +36,8 @@ export default function Home() {
           </a>
         </nav>
 
-        <div id="tentang">
-          <Kartu judul="Tentang Saya">
-            Hai! saya Riby Arta Dinata siswi kelas X RPL 1 di SMKN 1 KEPANJEN. Saya memiliki ketertarikan untuk mempelajari teknologi dan saya berdedikasi tinggi untuk bisa mempelajari lebih dalam mengenai teknologi, dan dapat mengembangkan usaha kecil melalui teknologi.
-          </Kartu>
-        </div>
-
-        <Kartu judul="Hobi">
-          <ul className="list-inside list-disc space-y-2">
-            <li>Memabaca novel</li>
-            <li>Mempelajari hal baru</li>
-            <li>Bermain game</li>
-          </ul>
-        </Kartu>
-
-        <Kartu judul="Cita-cita">
-          Saya ingin menjadi Web Developer yang profesional dan ingin menjadi seorang Cybersecurity. Saya akan terus belajar, berlatih, dan mengembangkan kemampuan saya.
-        </Kartu>
 
         <section id="keahlian">
-          <div className="bg-white p-5 rounded-xl shadow-sm border-gray-100">
           <h2 className="mb-4 text-2xl font-bold">Keahlian</h2>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
             {skills.map((skill) => (
@@ -63,44 +48,20 @@ export default function Home() {
              />
             ))}
           </div>
-          </div>
         </section>
 
-        <Kartu judul="Jadwal Belajar">
-            <div className="overflow-x-auto rounded-xl border border-slate-200">
-              <table className="w-full border-collapse text-left text-sm">
-                <thead className="bg-[#233f8b] text-white">
-                  <tr className="border-b border-slate-200">
-                    <th className="p-3">Hari</th>
-                    <th className="p-3">Waktu</th>
-                    <th className="p-3">Kegiatan</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="border-b border-slate-200">
-                    <td className="p-3">Senin</td>
-                    <td className="p-3">18.00-20.30</td>
-                    <td className="p-3">Mempelajari materi pemrograman</td>
-                  </tr>
-                  <tr className="border-b border-slate-200">
-                    <td className="p-3">Kamis</td>
-                    <td className="p-3">18.00-21.00</td>
-                    <td className="p-3">Latihan membuat website</td>
-                  </tr>
-                  <tr>
-                    <td className="p-3">Jumat</td>
-                    <td className="p-3">18.00-21.00</td>
-                    <td className="p-3">Membuat video dan mencatat rangkuman</td>
-                  </tr>
-                </tbody>
-              </table>
+        <section className="mt-10">
+          <h2 className="mb-4 text-2xl font-bold text-utama">Proyek Terbaru</h2>
+          <div className="grid gap-6 md:grid-cols-3">
+            {proyekTerbaru.map((item) => (
+              <ProyekCard key={item.slug} proyek={item} />
+            ))}
           </div>
-        </Kartu>
-
+          <Link href="/proyek" className="mt-6 inline-block rounded-lg bg-utama px-5 py-2 font-semibold text-white">
+            Lihat semua proyek
+          </Link>
+        </section>
       </div>
-      <footer className="mt-auto w-full bg-[#233f8b] px-5 py-5 text-center text-white">
-        © 2026 Riby Arta Dinata · Dibuat dengan Next.js di Kelas Industri UBIG.
-      </footer>
     </main>
   );
 }
