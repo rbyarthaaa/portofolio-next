@@ -40,7 +40,7 @@ export default async function DetailProyek({ params }) {
         &larr; Kembali ke daftar proyek
       </Link>
 
-      <h1 className="mt-4 text-3xl font-bold text-utama md:text-4xl">
+      <h1 className="mt-4 text-3xl font-bold text-utama dark:text-sky-200 md:text-4xl">
         {item.judul}
       </h1>
 
@@ -57,14 +57,14 @@ export default async function DetailProyek({ params }) {
       />
 
       <div className="mt-8 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-        <h2 className="text-xl font-bold text-utama">Deskripsi Proyek</h2>
+        <h2 className="text-xl font-bold text-utama dark:text-sky-200">Deskripsi Proyek</h2>
         <p className="mt-2 leading-relaxed text-gray-700">
           {item.deskripsi}
         </p>
       </div>
 
       <div className="mt-6 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-        <h2 className="text-xl font-bold text-utama">Yang Saya Pelajari</h2>
+        <h2 className="text-xl font-bold text-utama dark:text-sky-200">Yang Saya Pelajari</h2>
         <ul className="mt-3 list-disc space-y-1 pl-5 text-gray-700">
           {item.fitur.map((f) => (
             <li key={f}>{f}</li>

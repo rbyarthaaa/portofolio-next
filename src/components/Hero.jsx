@@ -12,7 +12,7 @@ return (
         className="h-50 w-50 rounded-full border-4 border-aksen object-cover"
         />
         <div>
-          <h1 className="text-3xl font-bold text-utama md:text-5xl">Halo, saya {nama}!</h1>
+          <h1 className="text-3xl font-bold text-utama dark:text-sky-200 md:text-5xl">Halo, saya {nama}!</h1>
           <p className="mt-3 text-lg text-gray-700">{tagline}</p>
         </div>
     </section>
