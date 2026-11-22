@@ -1,27 +1,53 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+
+const kategoriBadge = {
+    html: "html",
+    css: "css",
+    javascript: "javascript",
+    "next.js": "nextjs",
+};
 
 export default function ProyekCard({ proyek }) {
+    const kategori = Array.isArray(proyek.kategori)
+        ? proyek.kategori
+        : [proyek.kategori];
+
     return (
         <Link
-          href={`/proyek/${proyek.slug}`}
-          className="block overflow-hidden rounded-xl border border-gray-200 bg-white shadow hover:shadow-md">
+            href={`/proyek/${proyek.slug}`}
+            className="block h-full rounded-xl transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+        >
+            <Card className="h-full gap-0 border border-gray-200 bg-white p-0 shadow-sm transition-shadow hover:shadow-lg">
             <Image
-                src={proyek.gambar}
-                alt={proyek.judul}
+                src={proyek.gambar_url}
+                alt={`Tangkapan layar ${proyek.judul}`}
                 width={640}
                 height={420}
+                loading="eager"
+                className="aspect-video w-full object-cover"
             />
-            <div className="p-5">
-                <div className="flex flex-wrap gap-2">{proyek.kategori.map((kategori) => (
-                    <span key={kategori} 
-                          className="rounded-full bg-latar px-3 py-1 text-xs font-semibold text-utama dark:text-sky-200">
-                          {kategori}
-                    </span>
-                ))}</div>
-                <h3 className="mt-3 text-lg font-semibold text-utama dark:text-sky-200">{proyek.judul}</h3>
-                <p className="mt-1 text-sm text-gray-600">{proyek.deskripsi}</p>
-            </div>
+            <CardHeader className="gap-2">
+                <div className="flex flex-wrap gap-2">
+                    {kategori
+                        .filter((item) => typeof item === "string" && item.trim())
+                        .map((item) => {
+                            const nama = item.trim();
+                            const variant = kategoriBadge[nama.toLowerCase()] ?? "outline";
+
+                            return (
+                                <Badge key={nama} variant={variant}>
+                                    {nama}
+                                </Badge>
+                            );
+                        })}
+                </div>
+                <CardTitle className="text-lg text-primary">{proyek.judul}</CardTitle>
+                <CardDescription>{proyek.deskripsi}</CardDescription>
+            </CardHeader>
+            </Card>
           </Link>
     );
 }

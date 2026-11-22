@@ -6,7 +6,7 @@ import Navbar from "@/components/Navbar";
 import { Suspense } from "react"; // 1. IMPORT SUSPENSE
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
+  variable: "--font-sans",
   subsets: ["latin"],
 });
 
@@ -32,7 +32,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col bg-latar text-gray-800">
         {/* 2. BUNGKUS NAVBAR DENGAN SUSPENSE */}
         <Suspense fallback={<div className="h-16 bg-utama" />}>
-          <Navbar/>
+        <Navbar/>
         </Suspense>
         
         {children}

@@ -2,27 +2,27 @@
 
 import { useState } from "react";
 import ProyekCard from "@/components/ProyekCard";
+import { Button } from "@/components/ui/button";
 
 const daftarKategori = ["Semua", "HTML", "CSS", "JavaScript", "Next.js"];
-const tombolBiasa = "rounded-full border border-utama px-4 py-1 text-sm font-semibold text-utama dark:text-sky-200";
-const tombolAktif = "rounded-full border border-aksen bg-aksen px-4 py-1 text-sm font-semibold text-white";
-
 export default function FilterProyek({ proyek }) {
     const [kategori, setKategori] = useState("Semua");
     const [kata, setKata] = useState("");
-    
+
     const kataKecil = kata.toLowerCase();
-    
+
     const hasil = proyek.filter((p) => {
-        const kategoriProyek = typeof p.kategori === "string" ? p.kategoriToLowerCase(): "";
+        const kategoriProyek = Array.isArray(p.kategori)
+            ? p.kategori.join(" ").toLowerCase()
+            : typeof p.kategori === "string"
+                ? p.kategori.toLowerCase()
+                : "";
         const kategoriTombol = kategori.toLowerCase();
 
-
-        const cocokKategori = kategori === "Semua" || kategoriProyek === kategoriTombol || p.kategori?.includes(kategori);
-
-        const cocokJudul = (p.judul || p.title || p.nama || p.name || "").toLowerCase().includes(kataKecil);
-        const cockDeskripsi = (p.deskripsi || p.descrption || "").toLowerCase().includes(kataKecil);
-        const cocokKata = p.judul.toLowerCase().includes(kataKecil);
+        const judul = String(p.judul ?? p.title ?? p.nama ?? p.name ?? "").toLowerCase();
+        const deskripsi = String(p.deskripsi ?? p.description ?? "").toLowerCase();
+        const cocokKategori = kategori === "Semua" || kategoriProyek.includes(kategoriTombol);
+        const cocokKata = `${judul} ${deskripsi}`.includes(kataKecil);
 
         return cocokKategori && cocokKata;
     });
@@ -31,9 +31,9 @@ export default function FilterProyek({ proyek }) {
         <div className="mt-8">
             <div className="flex flex-wrap gap-2">
               {daftarKategori.map ((k) => (
-                <button key={k} type="button" onClick={() => setKategori (k) } className={kategori === k ? tombolAktif : tombolBiasa}>
+                <Button key={k} variant={kategori === k ? "default": "outline"} onClick={ () => setKategori (k)}>
                     {k}
-                </button>
+                </Button>
               ))}
             </div>
 
@@ -50,12 +50,9 @@ export default function FilterProyek({ proyek }) {
                   className="mt-1 w-full rounded-lg border border-gray-300 bg-white p-2 md:w-80"
                   />
                 { kata !== "" && (
-                    <button 
-                    type="button"
-                    onClick={ () => setKata("")}
-                    className="mt-2 text-sm font-semibold text-aksen dark:text-red-300 hover:underline">
-                        Hapus pencarian
-                    </button>
+                    <Button variant="link" onClick={() => setKata("")} className="mt-2 px-0 text-aksen">
+                        Hapus Pencarian
+                    </Button>
                 )}
             </div>
 

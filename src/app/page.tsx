@@ -1,20 +1,24 @@
 import Link from "next/link";
+import FilterProyek from "@/components/FilterProyek";
 import Hero from "@/components/Hero";
 import ProyekCard from "@/components/ProyekCard";
 import SkillCard from "@/components/SkillCard";
-import { proyek } from "@/data/proyek";
+import { supabase } from "@/lib/supabase";
+import { buttonVariants } from "@/components/ui/button";
 
-const skills = [
-  { nama: "HTML", level: "Menengah" },
-  { nama: "CSS", level: "Menengah" },
-  { nama: "JavaScript", level: "Dasar" },
-  { nama: "Git & GitHub", level: "Dasar" },
-  { nama: "Desain poster dengan Canva", level: "Mahir" },
-];
+export const instant = false;
 
-const proyekTerbaru = proyek.slice(-3);
+export default async function Home() {
+  const { data: skills } = await supabase
+    .from("skills")
+    .select("*")
+    .order("id")
+  const { data: proyekDariSupabase } = await supabase
+    .from("projects")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .limit(3);
 
-export default function Home() {
   return (
     <main className="flex min-h-screen flex-col bg-latar text-stone-800">
       <div className="mx-auto w-full max-w-4xl flex-1 space-y-8 px-5 py-10">
@@ -24,23 +28,21 @@ export default function Home() {
         />
 
         <nav className="flex flex-wrap justify-center gap-4">
-          <a
-            href="#tentang"
-            className="rounded-full bg-aksen px-5 py-3 text-white">
-            Tentang Saya
-          </a>
-          <a
-            href="#keahlian"
-            className="rounded-full border border-stone-300 px-5 py-3">
-            Lihat Keahlian
-          </a>
+        <div className="flex rounded-lg bg-utama">
+          <Link href="/proyek" className={buttonVariants ({ size: "lg" })}>
+             Lihat Proyek
+          </Link>
+        </div>
+          <Link href="/kontak" className={buttonVariants({ variant: "outline", size: "lg" })}>
+              Hubungi Saya
+          </Link>
         </nav>
 
 
         <section id="keahlian">
           <h2 className="mb-4 text-2xl font-bold">Keahlian</h2>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
-            {skills.map((skill) => (
+            {skills && skills.map((skill) => (
               <SkillCard
                 key={skill.nama}
                 nama={skill.nama}
@@ -51,13 +53,14 @@ export default function Home() {
         </section>
 
         <section className="mt-10">
-          <h2 className="mb-4 text-2xl font-bold text-utama dark:text-sky-200">Proyek Terbaru</h2>
+          <h2 className="mb-4 text-2xl font-bold text-primary">Proyek Terbaru</h2>
           <div className="grid gap-6 md:grid-cols-3">
-            {proyekTerbaru.map((item) => (
+            {(proyekDariSupabase ?? []).map((item) => (
               <ProyekCard key={item.slug} proyek={item} />
             ))}
           </div>
-          <Link href="/proyek" className="mt-6 inline-block rounded-lg bg-utama px-5 py-2 font-semibold text-white">
+          <Link
+            href="/proyek" className="mt-6 inline-block rounded-lg bg-utama px-5 py-2 font-semibold text-white">
             Lihat semua proyek
           </Link>
         </section>

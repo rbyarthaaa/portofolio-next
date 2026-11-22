@@ -7,6 +7,7 @@ import TombolTema from "@/components/TombolTema";
 const menu = [
     { href: "/", label: "Beranda" },
     { href: "/tentang", label: "Tentang" },
+    { href: "/keahlian", label: "Keahlian"},
     { href: "/proyek", label: "Proyek" },
     { href: "/kontak", label: "Kontak" },
 ];
